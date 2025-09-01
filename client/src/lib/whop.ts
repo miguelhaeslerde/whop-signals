@@ -110,9 +110,9 @@ export const whopSDK = new WhopSDK();
 export function mockWhopSDK(): WhopContext {
   const mockContext: WhopContext = {
     user: {
-      id: "mock-user-123",
-      username: "johndoe",
-      name: "John Doe",
+      id: import.meta.env.NEXT_PUBLIC_WHOP_AGENT_USER_ID || "user_FUnyssmDiTWHb",
+      username: "demo_user",
+      name: "Demo User",
       email: "john@example.com",
     },
     membership: {
@@ -121,8 +121,8 @@ export function mockWhopSDK(): WhopContext {
       plan_id: "pro-plan",
     },
     product: {
-      id: "signal-pro",
-      name: "Signal Pro",
+      id: import.meta.env.NEXT_PUBLIC_WHOP_APP_ID || "app_f6DsR0AVdGdcTW",
+      name: "Trading Signals",
       role: "admin", // Change to "member" for subscriber testing
       logo: null,
     },
@@ -130,6 +130,12 @@ export function mockWhopSDK(): WhopContext {
 
   // Override the SDK for development
   if (!window.Whop) {
+    console.log("Initializing Whop SDK with:", {
+      appId: import.meta.env.NEXT_PUBLIC_WHOP_APP_ID,
+      companyId: import.meta.env.NEXT_PUBLIC_WHOP_COMPANY_ID,
+      agentUserId: import.meta.env.NEXT_PUBLIC_WHOP_AGENT_USER_ID
+    });
+    
     window.Whop = {
       isFrame: () => true,
       getContext: async () => mockContext,
