@@ -136,12 +136,16 @@
   }
 
   /* Fix select dropdown text contrast */
-  [data-radix-select-trigger] {
-    color: var(--foreground) !important;
+  button[data-radix-select-trigger] {
+    color: hsl(0, 0%, 20%) !important;
   }
   
-  [data-radix-select-trigger][data-placeholder] {
-    color: hsl(0, 0%, 30%) !important;
+  button[data-radix-select-trigger] span[data-radix-select-value] {
+    color: hsl(0, 0%, 20%) !important;
+  }
+  
+  button[data-radix-select-trigger] span[data-radix-select-value][data-placeholder] {
+    color: hsl(0, 0%, 40%) !important;
   }
   
   [data-radix-select-content] {
@@ -158,8 +162,17 @@
     color: var(--accent-foreground) !important;
   }
   
-  .dark [data-radix-select-trigger][data-placeholder] {
-    color: hsl(0, 0%, 70%) !important;
+  /* Dark mode overrides */
+  .dark button[data-radix-select-trigger] {
+    color: hsl(0, 0%, 85%) !important;
+  }
+  
+  .dark button[data-radix-select-trigger] span[data-radix-select-value] {
+    color: hsl(0, 0%, 85%) !important;
+  }
+  
+  .dark button[data-radix-select-trigger] span[data-radix-select-value][data-placeholder] {
+    color: hsl(0, 0%, 60%) !important;
   }
   
   .dark [data-radix-select-item] {
