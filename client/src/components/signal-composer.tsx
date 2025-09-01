@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Send, Save, RotateCcw, Eye, Bell, ArrowUp, ArrowDown, X } from "lucide-react";
+import { Plus, Send, Save, RotateCcw, Eye, Bell, ArrowUp, ArrowDown, X, TrendingUp } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -421,6 +421,18 @@ export function SignalComposer() {
               </div>
             </div>
 
+            {/* TradingView Preview */}
+            {previewData.tradingViewLink && (
+              <div className="mb-4">
+                <div className="text-sm text-muted-foreground mb-2">TradingView Link</div>
+                <div className="bg-muted rounded-lg p-4 text-center">
+                  <TrendingUp className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                  <p className="text-sm text-muted-foreground">Chart Analysis</p>
+                  <p className="text-xs mt-2 text-blue-500 break-all">{previewData.tradingViewLink}</p>
+                </div>
+              </div>
+            )}
+
             <div className="flex items-center justify-between text-sm text-muted-foreground border-t border-border pt-3">
               <div className="flex items-center space-x-4">
                 <span>Signal #Preview</span>
@@ -463,7 +475,9 @@ Entry: ${previewData.entry || "0.00000"} | SL: ${previewData.stopLoss || "0.0000
                 }
 R/R: ${takeProfits.map(tp => tp.ratio).filter(Boolean).join("; ") || "–"}${
                   previewData.riskTag ? `\n${previewData.riskTag}` : ""
-                }`}
+                }
+
+For {FirstName} by {ProductName}`}
               </div>
             </div>
           </CardContent>

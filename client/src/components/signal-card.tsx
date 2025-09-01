@@ -204,7 +204,7 @@ export function SignalCard({ signal }: SignalCardProps) {
             </span>
           </div>
           <div className="text-xs">
-            <strong>Disclaimer:</strong> Trading involves risk. Past performance does not guarantee future results.
+            <strong>Disclaimer:</strong> Not financial advice. Trade at your own risk.
           </div>
         </div>
 

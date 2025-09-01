@@ -11,52 +11,8 @@ interface SidebarProps {
 }
 
 export function Sidebar({ stats }: SidebarProps) {
-  const defaultStats = {
-    winRate: 73.2,
-    avgRR: 2.4,
-    signalsToday: 3,
-    totalSignals: 1247,
-  };
-
-  const displayStats = stats || defaultStats;
-
   return (
     <div className="space-y-6">
-      {/* Performance Stats */}
-      <Card data-testid="performance-stats">
-        <CardHeader>
-          <CardTitle className="flex items-center text-base">
-            <BarChart3 className="h-4 w-4 mr-2 text-primary" />
-            Performance
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Win Rate</span>
-            <span className="font-semibold text-chart-2" data-testid="win-rate">
-              {displayStats.winRate}%
-            </span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Avg R/R</span>
-            <span className="font-semibold" data-testid="avg-rr">
-              {displayStats.avgRR}R
-            </span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Signals Today</span>
-            <span className="font-semibold" data-testid="signals-today">
-              {displayStats.signalsToday}
-            </span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Total Signals</span>
-            <span className="font-semibold" data-testid="total-signals">
-              {displayStats.totalSignals.toLocaleString()}
-            </span>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Active Positions */}
       <Card data-testid="active-positions">

@@ -3,16 +3,15 @@ import { useLocation } from "wouter";
 import { TrendingUp, Plus, BarChart3, Rss } from "lucide-react";
 
 export function Header() {
-  const { user, userRole, isAdmin } = useWhop();
+  const { context, isAdmin } = useWhop();
   const [location, setLocation] = useLocation();
 
   const navigation = [
     { id: "feed", label: "Feed", icon: Rss, path: "/" },
     ...(isAdmin ? [{ id: "compose", label: "Compose", icon: Plus, path: "/compose" }] : []),
-    { id: "analytics", label: "Analytics", icon: BarChart3, path: "/analytics" },
   ];
 
-  const userInitials = user?.name?.split(" ").map((n: string) => n[0]).join("") || "U";
+  const productName = context?.product?.name || "Signal Pro";
 
   return (
     <header className="bg-card border-b border-border sticky top-0 z-50 backdrop-blur" data-testid="header">
@@ -25,7 +24,7 @@ export function Header() {
                 <TrendingUp className="h-4 w-4 text-primary-foreground" />
               </div>
               <span className="font-semibold text-lg" data-testid="brand-name">
-                Signal Pro
+                {productName}
               </span>
             </div>
           </div>
@@ -54,27 +53,10 @@ export function Header() {
             })}
           </nav>
 
-          {/* User Info */}
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground text-sm font-medium" data-testid="user-initials">
-                  {userInitials}
-                </span>
-              </div>
-              <div className="hidden sm:block">
-                <p className="text-sm font-medium" data-testid="user-name">
-                  {user?.name || user?.username || "User"}
-                </p>
-                <p className="text-xs text-muted-foreground" data-testid="user-role">
-                  {userRole}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-1">
-              <div className="w-2 h-2 bg-chart-2 rounded-full" data-testid="online-indicator"></div>
-              <span className="text-xs text-muted-foreground">Online</span>
-            </div>
+          {/* Live Indicator */}
+          <div className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-chart-2 rounded-full animate-pulse" data-testid="online-indicator"></div>
+            <span className="text-sm text-muted-foreground">Live</span>
           </div>
         </div>
       </div>

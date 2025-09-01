@@ -7,7 +7,6 @@ import { WhopProvider } from "@/hooks/use-whop";
 import { Header } from "@/components/header";
 import Feed from "@/pages/feed";
 import Compose from "@/pages/compose";
-import Analytics from "@/pages/analytics";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -18,7 +17,6 @@ function Router() {
         <Switch>
           <Route path="/" component={Feed} />
           <Route path="/compose" component={Compose} />
-          <Route path="/analytics" component={Analytics} />
           <Route component={NotFound} />
         </Switch>
       </main>
