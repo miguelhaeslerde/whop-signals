@@ -12,6 +12,7 @@ export function Header() {
   ];
 
   const productName = context?.product?.name || "Signal Pro";
+  const productLogo = context?.product?.logo || context?.product?.image || context?.product?.icon;
 
   return (
     <header className="bg-card border-b border-border sticky top-0 z-50 backdrop-blur" data-testid="header">
@@ -20,9 +21,18 @@ export function Header() {
           {/* Logo and Brand */}
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <TrendingUp className="h-4 w-4 text-primary-foreground" />
-              </div>
+              {productLogo ? (
+                <img 
+                  src={productLogo} 
+                  alt={`${productName} logo`}
+                  className="w-8 h-8 rounded-lg object-cover"
+                  data-testid="product-logo"
+                />
+              ) : (
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <TrendingUp className="h-4 w-4 text-primary-foreground" />
+                </div>
+              )}
               <span className="font-semibold text-lg" data-testid="brand-name">
                 {productName}
               </span>

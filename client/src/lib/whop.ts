@@ -29,6 +29,9 @@ export interface WhopProduct {
   id: string;
   name: string;
   role: "admin" | "member";
+  logo?: string;
+  image?: string;
+  icon?: string;
 }
 
 export interface WhopContext {
@@ -121,6 +124,7 @@ export function mockWhopSDK(): WhopContext {
       id: "signal-pro",
       name: "Signal Pro",
       role: "admin", // Change to "member" for subscriber testing
+      logo: null,
     },
   };
 
