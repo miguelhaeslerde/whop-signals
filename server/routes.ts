@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { signalValidationSchema, insertUserSchema } from "@shared/schema";
 import { z } from "zod";
+import { verifyWhopUser, WhopUserVerification } from "./whop-sdk";
 
 // Rate limiting middleware
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -26,6 +27,30 @@ function rateLimit(maxRequests: number, windowMs: number) {
     record.count++;
     next();
   };
+}
+
+// Whop authentication middleware
+async function whopAuthMiddleware(req: any, res: any, next: any) {
+  try {
+    const verification = await verifyWhopUser(req.headers);
+    
+    if (!verification.hasAccess) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    
+    req.whopUser = verification;
+    next();
+  } catch (error) {
+    console.error('Auth middleware error:', error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+function requireAdmin(req: any, res: any, next: any) {
+  if (!req.whopUser || req.whopUser.accessLevel !== 'admin') {
+    return res.status(403).json({ message: "Admin access required" });
+  }
+  next();
 }
 
 // Whop notification function (to be implemented with actual Whop SDK)
