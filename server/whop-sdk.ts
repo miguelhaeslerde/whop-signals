@@ -1,9 +1,7 @@
-import { Whop } from "@whop/api";
+import { WhopServerSdk } from "@whop/api";
 
-export const whopApi = new Whop({
+export const whopApi = new WhopServerSdk({
   apiKey: process.env.WHOP_API_KEY!,
-  appId: process.env.NEXT_PUBLIC_WHOP_APP_ID!,
-  agentUserId: process.env.NEXT_PUBLIC_WHOP_AGENT_USER_ID!,
 });
 
 export interface WhopUserVerification {

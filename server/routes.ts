@@ -107,16 +107,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get current user profile
-  app.get("/api/user/profile", async (req, res) => {
+  app.get("/api/user/profile", whopAuthMiddleware, async (req, res) => {
     try {
-      // In a real implementation, this would validate the Whop token
-      const whopUserId = req.headers["x-whop-user-id"] as string;
-      
-      if (!whopUserId) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-      
-      const user = await storage.getUserByWhopId(whopUserId);
+      const user = await storage.getUserByWhopId(req.whopUser.userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -128,7 +121,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get signals feed
-  app.get("/api/signals", async (req, res) => {
+  app.get("/api/signals", whopAuthMiddleware, async (req, res) => {
     try {
       const limit = parseInt(req.query.limit as string) || 20;
       const offset = parseInt(req.query.offset as string) || 0;
@@ -141,18 +134,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create new signal (Admin only)
-  app.post("/api/signals", rateLimit(10, 60000), async (req, res) => {
+  app.post("/api/signals", rateLimit(10, 60000), whopAuthMiddleware, requireAdmin, async (req, res) => {
     try {
-      const whopUserId = req.headers["x-whop-user-id"] as string;
-      
-      if (!whopUserId) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-      
-      const user = await storage.getUserByWhopId(whopUserId);
-      if (!user || user.role !== "ADMIN") {
-        return res.status(403).json({ message: "Admin access required" });
-      }
+      const user = await storage.getUserByWhopId(req.whopUser.userId);
       
       // Validate signal data
       const validatedData = signalValidationSchema.parse(req.body);
@@ -225,16 +209,11 @@ R/R: ${rrString || "–"}${validatedData.riskTag ? `\n${validatedData.riskTag}` 
   });
 
   // Mark signal as read
-  app.post("/api/signals/:id/read", async (req, res) => {
+  app.post("/api/signals/:id/read", whopAuthMiddleware, async (req, res) => {
     try {
-      const whopUserId = req.headers["x-whop-user-id"] as string;
       const signalId = req.params.id;
       
-      if (!whopUserId) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-      
-      const user = await storage.getUserByWhopId(whopUserId);
+      const user = await storage.getUserByWhopId(req.whopUser.userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -261,7 +240,7 @@ R/R: ${rrString || "–"}${validatedData.riskTag ? `\n${validatedData.riskTag}` 
   });
 
   // Get signal read status
-  app.get("/api/signals/:id/reads", async (req, res) => {
+  app.get("/api/signals/:id/reads", whopAuthMiddleware, requireAdmin, async (req, res) => {
     try {
       const signalId = req.params.id;
       const reads = await storage.getSignalReads(signalId);
@@ -279,15 +258,9 @@ R/R: ${rrString || "–"}${validatedData.riskTag ? `\n${validatedData.riskTag}` 
   });
 
   // Get user statistics
-  app.get("/api/user/stats", async (req, res) => {
+  app.get("/api/user/stats", whopAuthMiddleware, async (req, res) => {
     try {
-      const whopUserId = req.headers["x-whop-user-id"] as string;
-      
-      if (!whopUserId) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-      
-      const user = await storage.getUserByWhopId(whopUserId);
+      const user = await storage.getUserByWhopId(req.whopUser.userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
