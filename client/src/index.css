@@ -140,17 +140,29 @@
     color: var(--foreground) !important;
   }
   
+  [data-radix-select-trigger][data-placeholder] {
+    color: hsl(0, 0%, 30%) !important;
+  }
+  
   [data-radix-select-content] {
     background: var(--popover) !important;
     border: 1px solid var(--border) !important;
   }
   
   [data-radix-select-item] {
-    color: var(--popover-foreground) !important;
+    color: hsl(0, 0%, 20%) !important;
   }
   
   [data-radix-select-item]:hover {
     background: var(--accent) !important;
     color: var(--accent-foreground) !important;
+  }
+  
+  .dark [data-radix-select-trigger][data-placeholder] {
+    color: hsl(0, 0%, 70%) !important;
+  }
+  
+  .dark [data-radix-select-item] {
+    color: var(--popover-foreground) !important;
   }
 }
